@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 
 import {
@@ -161,6 +161,11 @@ function EditCompanyPage() {
             {isActive ? "Empresa ativa." : "Empresa inativa."}
           </p>
         </div>
+        <Button asChild variant="outline">
+          <Link to="/empresas/$id/configuracoes" params={{ id }}>
+            Configurações
+          </Link>
+        </Button>
       </div>
       <div className="rounded-lg border bg-card p-6">
         <CompanyForm
