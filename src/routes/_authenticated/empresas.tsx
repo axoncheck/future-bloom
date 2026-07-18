@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
-import { Plus } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Pencil, Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -72,9 +72,11 @@ function CompaniesPage() {
           <h1 className="text-2xl font-semibold tracking-normal text-foreground">Empresas</h1>
           <p className="text-sm text-muted-foreground">Cadastro e consulta de clientes da operação.</p>
         </div>
-        <Button>
-          <Plus className="size-4" />
-          Nova Empresa
+        <Button asChild>
+          <Link to="/empresas/nova">
+            <Plus className="size-4" />
+            Nova Empresa
+          </Link>
         </Button>
       </div>
 
@@ -93,6 +95,7 @@ function CompaniesPage() {
               <TableHead>Plano</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Criado em</TableHead>
+              <TableHead className="w-24 text-right">Ações</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -102,23 +105,40 @@ function CompaniesPage() {
                 <TableCell>{company.document ?? "—"}</TableCell>
                 <TableCell className="capitalize">{company.plan_type}</TableCell>
                 <TableCell>
-                  <span className="rounded-md bg-accent px-2 py-1 text-xs font-medium text-accent-foreground">
+                  <span
+                    className={
+                      company.is_active
+                        ? "rounded-md bg-emerald-500/15 px-2 py-1 text-xs font-medium text-emerald-700 dark:text-emerald-400"
+                        : "rounded-md bg-destructive/15 px-2 py-1 text-xs font-medium text-destructive"
+                    }
+                  >
                     {company.is_active ? "Ativo" : "Inativo"}
                   </span>
                 </TableCell>
                 <TableCell>{formatDate(company.created_at)}</TableCell>
+                <TableCell className="text-right">
+                  <Button asChild variant="ghost" size="sm">
+                    <Link
+                      to="/empresas/$id/editar"
+                      params={{ id: company.id }}
+                    >
+                      <Pencil className="size-4" />
+                      Editar
+                    </Link>
+                  </Button>
+                </TableCell>
               </TableRow>
             ))}
             {!loading && companies.length === 0 && (
               <TableRow>
-                <TableCell colSpan={5} className="h-24 text-center text-muted-foreground">
+                <TableCell colSpan={6} className="h-24 text-center text-muted-foreground">
                   Nenhuma empresa cadastrada.
                 </TableCell>
               </TableRow>
             )}
             {loading && (
               <TableRow>
-                <TableCell colSpan={5} className="h-24 text-center text-muted-foreground">
+                <TableCell colSpan={6} className="h-24 text-center text-muted-foreground">
                   Carregando empresas...
                 </TableCell>
               </TableRow>

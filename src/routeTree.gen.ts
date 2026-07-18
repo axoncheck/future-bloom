@@ -20,6 +20,8 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as AuthenticatedConfiguracoesRouteImport } from './routes/_authenticated/configuracoes'
 import { Route as AuthenticatedChecklistsRouteImport } from './routes/_authenticated/checklists'
 import { Route as AuthenticatedAlertasRouteImport } from './routes/_authenticated/alertas'
+import { Route as AuthenticatedEmpresasNovaRouteImport } from './routes/_authenticated/empresas.nova'
+import { Route as AuthenticatedEmpresasIdEditarRouteImport } from './routes/_authenticated/empresas.$id.editar'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -76,6 +78,18 @@ const AuthenticatedAlertasRoute = AuthenticatedAlertasRouteImport.update({
   path: '/alertas',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedEmpresasNovaRoute =
+  AuthenticatedEmpresasNovaRouteImport.update({
+    id: '/nova',
+    path: '/nova',
+    getParentRoute: () => AuthenticatedEmpresasRoute,
+  } as any)
+const AuthenticatedEmpresasIdEditarRoute =
+  AuthenticatedEmpresasIdEditarRouteImport.update({
+    id: '/$id/editar',
+    path: '/$id/editar',
+    getParentRoute: () => AuthenticatedEmpresasRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -84,10 +98,12 @@ export interface FileRoutesByFullPath {
   '/checklists': typeof AuthenticatedChecklistsRoute
   '/configuracoes': typeof AuthenticatedConfiguracoesRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
-  '/empresas': typeof AuthenticatedEmpresasRoute
+  '/empresas': typeof AuthenticatedEmpresasRouteWithChildren
   '/maquinas': typeof AuthenticatedMaquinasRoute
   '/operadores': typeof AuthenticatedOperadoresRoute
   '/os': typeof AuthenticatedOsRoute
+  '/empresas/nova': typeof AuthenticatedEmpresasNovaRoute
+  '/empresas/$id/editar': typeof AuthenticatedEmpresasIdEditarRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -96,10 +112,12 @@ export interface FileRoutesByTo {
   '/checklists': typeof AuthenticatedChecklistsRoute
   '/configuracoes': typeof AuthenticatedConfiguracoesRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
-  '/empresas': typeof AuthenticatedEmpresasRoute
+  '/empresas': typeof AuthenticatedEmpresasRouteWithChildren
   '/maquinas': typeof AuthenticatedMaquinasRoute
   '/operadores': typeof AuthenticatedOperadoresRoute
   '/os': typeof AuthenticatedOsRoute
+  '/empresas/nova': typeof AuthenticatedEmpresasNovaRoute
+  '/empresas/$id/editar': typeof AuthenticatedEmpresasIdEditarRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -110,10 +128,12 @@ export interface FileRoutesById {
   '/_authenticated/checklists': typeof AuthenticatedChecklistsRoute
   '/_authenticated/configuracoes': typeof AuthenticatedConfiguracoesRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
-  '/_authenticated/empresas': typeof AuthenticatedEmpresasRoute
+  '/_authenticated/empresas': typeof AuthenticatedEmpresasRouteWithChildren
   '/_authenticated/maquinas': typeof AuthenticatedMaquinasRoute
   '/_authenticated/operadores': typeof AuthenticatedOperadoresRoute
   '/_authenticated/os': typeof AuthenticatedOsRoute
+  '/_authenticated/empresas/nova': typeof AuthenticatedEmpresasNovaRoute
+  '/_authenticated/empresas/$id/editar': typeof AuthenticatedEmpresasIdEditarRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -128,6 +148,8 @@ export interface FileRouteTypes {
     | '/maquinas'
     | '/operadores'
     | '/os'
+    | '/empresas/nova'
+    | '/empresas/$id/editar'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -140,6 +162,8 @@ export interface FileRouteTypes {
     | '/maquinas'
     | '/operadores'
     | '/os'
+    | '/empresas/nova'
+    | '/empresas/$id/editar'
   id:
     | '__root__'
     | '/'
@@ -153,6 +177,8 @@ export interface FileRouteTypes {
     | '/_authenticated/maquinas'
     | '/_authenticated/operadores'
     | '/_authenticated/os'
+    | '/_authenticated/empresas/nova'
+    | '/_authenticated/empresas/$id/editar'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -240,15 +266,44 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAlertasRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/empresas/nova': {
+      id: '/_authenticated/empresas/nova'
+      path: '/nova'
+      fullPath: '/empresas/nova'
+      preLoaderRoute: typeof AuthenticatedEmpresasNovaRouteImport
+      parentRoute: typeof AuthenticatedEmpresasRoute
+    }
+    '/_authenticated/empresas/$id/editar': {
+      id: '/_authenticated/empresas/$id/editar'
+      path: '/$id/editar'
+      fullPath: '/empresas/$id/editar'
+      preLoaderRoute: typeof AuthenticatedEmpresasIdEditarRouteImport
+      parentRoute: typeof AuthenticatedEmpresasRoute
+    }
   }
 }
+
+interface AuthenticatedEmpresasRouteChildren {
+  AuthenticatedEmpresasNovaRoute: typeof AuthenticatedEmpresasNovaRoute
+  AuthenticatedEmpresasIdEditarRoute: typeof AuthenticatedEmpresasIdEditarRoute
+}
+
+const AuthenticatedEmpresasRouteChildren: AuthenticatedEmpresasRouteChildren = {
+  AuthenticatedEmpresasNovaRoute: AuthenticatedEmpresasNovaRoute,
+  AuthenticatedEmpresasIdEditarRoute: AuthenticatedEmpresasIdEditarRoute,
+}
+
+const AuthenticatedEmpresasRouteWithChildren =
+  AuthenticatedEmpresasRoute._addFileChildren(
+    AuthenticatedEmpresasRouteChildren,
+  )
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAlertasRoute: typeof AuthenticatedAlertasRoute
   AuthenticatedChecklistsRoute: typeof AuthenticatedChecklistsRoute
   AuthenticatedConfiguracoesRoute: typeof AuthenticatedConfiguracoesRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
-  AuthenticatedEmpresasRoute: typeof AuthenticatedEmpresasRoute
+  AuthenticatedEmpresasRoute: typeof AuthenticatedEmpresasRouteWithChildren
   AuthenticatedMaquinasRoute: typeof AuthenticatedMaquinasRoute
   AuthenticatedOperadoresRoute: typeof AuthenticatedOperadoresRoute
   AuthenticatedOsRoute: typeof AuthenticatedOsRoute
@@ -259,7 +314,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedChecklistsRoute: AuthenticatedChecklistsRoute,
   AuthenticatedConfiguracoesRoute: AuthenticatedConfiguracoesRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
-  AuthenticatedEmpresasRoute: AuthenticatedEmpresasRoute,
+  AuthenticatedEmpresasRoute: AuthenticatedEmpresasRouteWithChildren,
   AuthenticatedMaquinasRoute: AuthenticatedMaquinasRoute,
   AuthenticatedOperadoresRoute: AuthenticatedOperadoresRoute,
   AuthenticatedOsRoute: AuthenticatedOsRoute,
