@@ -72,9 +72,11 @@ function CompaniesPage() {
           <h1 className="text-2xl font-semibold tracking-normal text-foreground">Empresas</h1>
           <p className="text-sm text-muted-foreground">Cadastro e consulta de clientes da operação.</p>
         </div>
-        <Button>
-          <Plus className="size-4" />
-          Nova Empresa
+        <Button asChild>
+          <Link to="/empresas/nova">
+            <Plus className="size-4" />
+            Nova Empresa
+          </Link>
         </Button>
       </div>
 
