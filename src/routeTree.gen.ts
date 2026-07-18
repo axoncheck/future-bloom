@@ -21,6 +21,7 @@ import { Route as AuthenticatedConfiguracoesRouteImport } from './routes/_authen
 import { Route as AuthenticatedChecklistsRouteImport } from './routes/_authenticated/checklists'
 import { Route as AuthenticatedAlertasRouteImport } from './routes/_authenticated/alertas'
 import { Route as AuthenticatedEmpresasNovaRouteImport } from './routes/_authenticated/empresas.nova'
+import { Route as AuthenticatedEmpresasIdEditarRouteImport } from './routes/_authenticated/empresas.$id.editar'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -83,6 +84,12 @@ const AuthenticatedEmpresasNovaRoute =
     path: '/nova',
     getParentRoute: () => AuthenticatedEmpresasRoute,
   } as any)
+const AuthenticatedEmpresasIdEditarRoute =
+  AuthenticatedEmpresasIdEditarRouteImport.update({
+    id: '/$id/editar',
+    path: '/$id/editar',
+    getParentRoute: () => AuthenticatedEmpresasRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -96,6 +103,7 @@ export interface FileRoutesByFullPath {
   '/operadores': typeof AuthenticatedOperadoresRoute
   '/os': typeof AuthenticatedOsRoute
   '/empresas/nova': typeof AuthenticatedEmpresasNovaRoute
+  '/empresas/$id/editar': typeof AuthenticatedEmpresasIdEditarRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -109,6 +117,7 @@ export interface FileRoutesByTo {
   '/operadores': typeof AuthenticatedOperadoresRoute
   '/os': typeof AuthenticatedOsRoute
   '/empresas/nova': typeof AuthenticatedEmpresasNovaRoute
+  '/empresas/$id/editar': typeof AuthenticatedEmpresasIdEditarRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -124,6 +133,7 @@ export interface FileRoutesById {
   '/_authenticated/operadores': typeof AuthenticatedOperadoresRoute
   '/_authenticated/os': typeof AuthenticatedOsRoute
   '/_authenticated/empresas/nova': typeof AuthenticatedEmpresasNovaRoute
+  '/_authenticated/empresas/$id/editar': typeof AuthenticatedEmpresasIdEditarRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -139,6 +149,7 @@ export interface FileRouteTypes {
     | '/operadores'
     | '/os'
     | '/empresas/nova'
+    | '/empresas/$id/editar'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -152,6 +163,7 @@ export interface FileRouteTypes {
     | '/operadores'
     | '/os'
     | '/empresas/nova'
+    | '/empresas/$id/editar'
   id:
     | '__root__'
     | '/'
@@ -166,6 +178,7 @@ export interface FileRouteTypes {
     | '/_authenticated/operadores'
     | '/_authenticated/os'
     | '/_authenticated/empresas/nova'
+    | '/_authenticated/empresas/$id/editar'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -260,15 +273,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedEmpresasNovaRouteImport
       parentRoute: typeof AuthenticatedEmpresasRoute
     }
+    '/_authenticated/empresas/$id/editar': {
+      id: '/_authenticated/empresas/$id/editar'
+      path: '/$id/editar'
+      fullPath: '/empresas/$id/editar'
+      preLoaderRoute: typeof AuthenticatedEmpresasIdEditarRouteImport
+      parentRoute: typeof AuthenticatedEmpresasRoute
+    }
   }
 }
 
 interface AuthenticatedEmpresasRouteChildren {
   AuthenticatedEmpresasNovaRoute: typeof AuthenticatedEmpresasNovaRoute
+  AuthenticatedEmpresasIdEditarRoute: typeof AuthenticatedEmpresasIdEditarRoute
 }
 
 const AuthenticatedEmpresasRouteChildren: AuthenticatedEmpresasRouteChildren = {
   AuthenticatedEmpresasNovaRoute: AuthenticatedEmpresasNovaRoute,
+  AuthenticatedEmpresasIdEditarRoute: AuthenticatedEmpresasIdEditarRoute,
 }
 
 const AuthenticatedEmpresasRouteWithChildren =
