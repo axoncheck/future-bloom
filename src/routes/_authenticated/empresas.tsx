@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Pencil, Plus } from "lucide-react";
+import { Pencil, Plus, Settings } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -95,7 +95,7 @@ function CompaniesPage() {
               <TableHead>Plano</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Criado em</TableHead>
-              <TableHead className="w-24 text-right">Ações</TableHead>
+              <TableHead className="w-40 text-right">Ações</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -117,15 +117,20 @@ function CompaniesPage() {
                 </TableCell>
                 <TableCell>{formatDate(company.created_at)}</TableCell>
                 <TableCell className="text-right">
-                  <Button asChild variant="ghost" size="sm">
-                    <Link
-                      to="/empresas/$id/editar"
-                      params={{ id: company.id }}
-                    >
-                      <Pencil className="size-4" />
-                      Editar
-                    </Link>
-                  </Button>
+                  <div className="flex justify-end gap-1">
+                    <Button asChild variant="ghost" size="sm">
+                      <Link to="/empresas/$id/editar" params={{ id: company.id }}>
+                        <Pencil className="size-4" />
+                        Editar
+                      </Link>
+                    </Button>
+                    <Button asChild variant="ghost" size="sm">
+                      <Link to="/empresas/$id/configuracoes" params={{ id: company.id }}>
+                        <Settings className="size-4" />
+                        Config
+                      </Link>
+                    </Button>
+                  </div>
                 </TableCell>
               </TableRow>
             ))}

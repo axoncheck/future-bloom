@@ -22,6 +22,7 @@ import { Route as AuthenticatedChecklistsRouteImport } from './routes/_authentic
 import { Route as AuthenticatedAlertasRouteImport } from './routes/_authenticated/alertas'
 import { Route as AuthenticatedEmpresasNovaRouteImport } from './routes/_authenticated/empresas.nova'
 import { Route as AuthenticatedEmpresasIdEditarRouteImport } from './routes/_authenticated/empresas.$id.editar'
+import { Route as AuthenticatedEmpresasIdConfiguracoesRouteImport } from './routes/_authenticated/empresas.$id.configuracoes'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -90,6 +91,12 @@ const AuthenticatedEmpresasIdEditarRoute =
     path: '/$id/editar',
     getParentRoute: () => AuthenticatedEmpresasRoute,
   } as any)
+const AuthenticatedEmpresasIdConfiguracoesRoute =
+  AuthenticatedEmpresasIdConfiguracoesRouteImport.update({
+    id: '/$id/configuracoes',
+    path: '/$id/configuracoes',
+    getParentRoute: () => AuthenticatedEmpresasRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -103,6 +110,7 @@ export interface FileRoutesByFullPath {
   '/operadores': typeof AuthenticatedOperadoresRoute
   '/os': typeof AuthenticatedOsRoute
   '/empresas/nova': typeof AuthenticatedEmpresasNovaRoute
+  '/empresas/$id/configuracoes': typeof AuthenticatedEmpresasIdConfiguracoesRoute
   '/empresas/$id/editar': typeof AuthenticatedEmpresasIdEditarRoute
 }
 export interface FileRoutesByTo {
@@ -117,6 +125,7 @@ export interface FileRoutesByTo {
   '/operadores': typeof AuthenticatedOperadoresRoute
   '/os': typeof AuthenticatedOsRoute
   '/empresas/nova': typeof AuthenticatedEmpresasNovaRoute
+  '/empresas/$id/configuracoes': typeof AuthenticatedEmpresasIdConfiguracoesRoute
   '/empresas/$id/editar': typeof AuthenticatedEmpresasIdEditarRoute
 }
 export interface FileRoutesById {
@@ -133,6 +142,7 @@ export interface FileRoutesById {
   '/_authenticated/operadores': typeof AuthenticatedOperadoresRoute
   '/_authenticated/os': typeof AuthenticatedOsRoute
   '/_authenticated/empresas/nova': typeof AuthenticatedEmpresasNovaRoute
+  '/_authenticated/empresas/$id/configuracoes': typeof AuthenticatedEmpresasIdConfiguracoesRoute
   '/_authenticated/empresas/$id/editar': typeof AuthenticatedEmpresasIdEditarRoute
 }
 export interface FileRouteTypes {
@@ -149,6 +159,7 @@ export interface FileRouteTypes {
     | '/operadores'
     | '/os'
     | '/empresas/nova'
+    | '/empresas/$id/configuracoes'
     | '/empresas/$id/editar'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -163,6 +174,7 @@ export interface FileRouteTypes {
     | '/operadores'
     | '/os'
     | '/empresas/nova'
+    | '/empresas/$id/configuracoes'
     | '/empresas/$id/editar'
   id:
     | '__root__'
@@ -178,6 +190,7 @@ export interface FileRouteTypes {
     | '/_authenticated/operadores'
     | '/_authenticated/os'
     | '/_authenticated/empresas/nova'
+    | '/_authenticated/empresas/$id/configuracoes'
     | '/_authenticated/empresas/$id/editar'
   fileRoutesById: FileRoutesById
 }
@@ -280,16 +293,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedEmpresasIdEditarRouteImport
       parentRoute: typeof AuthenticatedEmpresasRoute
     }
+    '/_authenticated/empresas/$id/configuracoes': {
+      id: '/_authenticated/empresas/$id/configuracoes'
+      path: '/$id/configuracoes'
+      fullPath: '/empresas/$id/configuracoes'
+      preLoaderRoute: typeof AuthenticatedEmpresasIdConfiguracoesRouteImport
+      parentRoute: typeof AuthenticatedEmpresasRoute
+    }
   }
 }
 
 interface AuthenticatedEmpresasRouteChildren {
   AuthenticatedEmpresasNovaRoute: typeof AuthenticatedEmpresasNovaRoute
+  AuthenticatedEmpresasIdConfiguracoesRoute: typeof AuthenticatedEmpresasIdConfiguracoesRoute
   AuthenticatedEmpresasIdEditarRoute: typeof AuthenticatedEmpresasIdEditarRoute
 }
 
 const AuthenticatedEmpresasRouteChildren: AuthenticatedEmpresasRouteChildren = {
   AuthenticatedEmpresasNovaRoute: AuthenticatedEmpresasNovaRoute,
+  AuthenticatedEmpresasIdConfiguracoesRoute:
+    AuthenticatedEmpresasIdConfiguracoesRoute,
   AuthenticatedEmpresasIdEditarRoute: AuthenticatedEmpresasIdEditarRoute,
 }
 
