@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
+import { Link, createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { ClipboardCheck, Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -106,6 +106,13 @@ function LoginPage() {
             Entrar
           </Button>
         </form>
+
+        <p className="mt-6 text-center text-sm text-muted-foreground">
+          Não tem uma conta?{" "}
+          <Link to="/cadastro" className="font-medium text-primary hover:underline">
+            Cadastre-se
+          </Link>
+        </p>
       </section>
     </main>
   );
