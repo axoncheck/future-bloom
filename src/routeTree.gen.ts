@@ -10,8 +10,10 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as CadastroRouteImport } from './routes/cadastro'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CadastroAguardandoLiberacaoRouteImport } from './routes/cadastro.aguardando-liberacao'
 import { Route as AuthenticatedOsRouteImport } from './routes/_authenticated/os'
 import { Route as AuthenticatedOperadoresRouteImport } from './routes/_authenticated/operadores'
 import { Route as AuthenticatedMaquinasRouteImport } from './routes/_authenticated/maquinas'
@@ -29,6 +31,11 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CadastroRoute = CadastroRouteImport.update({
+  id: '/cadastro',
+  path: '/cadastro',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
@@ -38,6 +45,12 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CadastroAguardandoLiberacaoRoute =
+  CadastroAguardandoLiberacaoRouteImport.update({
+    id: '/aguardando-liberacao',
+    path: '/aguardando-liberacao',
+    getParentRoute: () => CadastroRoute,
+  } as any)
 const AuthenticatedOsRoute = AuthenticatedOsRouteImport.update({
   id: '/os',
   path: '/os',
@@ -100,6 +113,7 @@ const AuthenticatedEmpresasIdConfiguracoesRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cadastro': typeof CadastroRouteWithChildren
   '/login': typeof LoginRoute
   '/alertas': typeof AuthenticatedAlertasRoute
   '/checklists': typeof AuthenticatedChecklistsRoute
@@ -109,12 +123,14 @@ export interface FileRoutesByFullPath {
   '/maquinas': typeof AuthenticatedMaquinasRoute
   '/operadores': typeof AuthenticatedOperadoresRoute
   '/os': typeof AuthenticatedOsRoute
+  '/cadastro/aguardando-liberacao': typeof CadastroAguardandoLiberacaoRoute
   '/empresas/nova': typeof AuthenticatedEmpresasNovaRoute
   '/empresas/$id/configuracoes': typeof AuthenticatedEmpresasIdConfiguracoesRoute
   '/empresas/$id/editar': typeof AuthenticatedEmpresasIdEditarRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cadastro': typeof CadastroRouteWithChildren
   '/login': typeof LoginRoute
   '/alertas': typeof AuthenticatedAlertasRoute
   '/checklists': typeof AuthenticatedChecklistsRoute
@@ -124,6 +140,7 @@ export interface FileRoutesByTo {
   '/maquinas': typeof AuthenticatedMaquinasRoute
   '/operadores': typeof AuthenticatedOperadoresRoute
   '/os': typeof AuthenticatedOsRoute
+  '/cadastro/aguardando-liberacao': typeof CadastroAguardandoLiberacaoRoute
   '/empresas/nova': typeof AuthenticatedEmpresasNovaRoute
   '/empresas/$id/configuracoes': typeof AuthenticatedEmpresasIdConfiguracoesRoute
   '/empresas/$id/editar': typeof AuthenticatedEmpresasIdEditarRoute
@@ -132,6 +149,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/cadastro': typeof CadastroRouteWithChildren
   '/login': typeof LoginRoute
   '/_authenticated/alertas': typeof AuthenticatedAlertasRoute
   '/_authenticated/checklists': typeof AuthenticatedChecklistsRoute
@@ -141,6 +159,7 @@ export interface FileRoutesById {
   '/_authenticated/maquinas': typeof AuthenticatedMaquinasRoute
   '/_authenticated/operadores': typeof AuthenticatedOperadoresRoute
   '/_authenticated/os': typeof AuthenticatedOsRoute
+  '/cadastro/aguardando-liberacao': typeof CadastroAguardandoLiberacaoRoute
   '/_authenticated/empresas/nova': typeof AuthenticatedEmpresasNovaRoute
   '/_authenticated/empresas/$id/configuracoes': typeof AuthenticatedEmpresasIdConfiguracoesRoute
   '/_authenticated/empresas/$id/editar': typeof AuthenticatedEmpresasIdEditarRoute
@@ -149,6 +168,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/cadastro'
     | '/login'
     | '/alertas'
     | '/checklists'
@@ -158,12 +178,14 @@ export interface FileRouteTypes {
     | '/maquinas'
     | '/operadores'
     | '/os'
+    | '/cadastro/aguardando-liberacao'
     | '/empresas/nova'
     | '/empresas/$id/configuracoes'
     | '/empresas/$id/editar'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/cadastro'
     | '/login'
     | '/alertas'
     | '/checklists'
@@ -173,6 +195,7 @@ export interface FileRouteTypes {
     | '/maquinas'
     | '/operadores'
     | '/os'
+    | '/cadastro/aguardando-liberacao'
     | '/empresas/nova'
     | '/empresas/$id/configuracoes'
     | '/empresas/$id/editar'
@@ -180,6 +203,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_authenticated'
+    | '/cadastro'
     | '/login'
     | '/_authenticated/alertas'
     | '/_authenticated/checklists'
@@ -189,6 +213,7 @@ export interface FileRouteTypes {
     | '/_authenticated/maquinas'
     | '/_authenticated/operadores'
     | '/_authenticated/os'
+    | '/cadastro/aguardando-liberacao'
     | '/_authenticated/empresas/nova'
     | '/_authenticated/empresas/$id/configuracoes'
     | '/_authenticated/empresas/$id/editar'
@@ -197,6 +222,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  CadastroRoute: typeof CadastroRouteWithChildren
   LoginRoute: typeof LoginRoute
 }
 
@@ -207,6 +233,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cadastro': {
+      id: '/cadastro'
+      path: '/cadastro'
+      fullPath: '/cadastro'
+      preLoaderRoute: typeof CadastroRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -222,6 +255,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/cadastro/aguardando-liberacao': {
+      id: '/cadastro/aguardando-liberacao'
+      path: '/aguardando-liberacao'
+      fullPath: '/cadastro/aguardando-liberacao'
+      preLoaderRoute: typeof CadastroAguardandoLiberacaoRouteImport
+      parentRoute: typeof CadastroRoute
     }
     '/_authenticated/os': {
       id: '/_authenticated/os'
@@ -346,9 +386,22 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface CadastroRouteChildren {
+  CadastroAguardandoLiberacaoRoute: typeof CadastroAguardandoLiberacaoRoute
+}
+
+const CadastroRouteChildren: CadastroRouteChildren = {
+  CadastroAguardandoLiberacaoRoute: CadastroAguardandoLiberacaoRoute,
+}
+
+const CadastroRouteWithChildren = CadastroRoute._addFileChildren(
+  CadastroRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  CadastroRoute: CadastroRouteWithChildren,
   LoginRoute: LoginRoute,
 }
 export const routeTree = rootRouteImport
