@@ -24,7 +24,7 @@ export function AppLayout() {
       <div className="flex min-h-screen w-full bg-background">
         <AppSidebar />
         <div className="flex min-w-0 flex-1 flex-col">
-          <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b bg-background/95 px-4 backdrop-blur md:px-6">
+          <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-border/60 bg-background/80 px-4 shadow-[0_1px_2px_0_rgba(15,23,42,0.03)] backdrop-blur-md md:px-6">
             <div className="flex items-center gap-3">
               <SidebarTrigger />
               <div>
