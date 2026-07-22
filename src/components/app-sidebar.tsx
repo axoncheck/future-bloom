@@ -23,6 +23,7 @@ import {
   SidebarRail,
   useSidebar,
 } from "@/components/ui/sidebar";
+import axonLogo from "@/assets/axon-logo.png.asset.json";
 
 const navigationItems = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
@@ -44,12 +45,14 @@ export function AppSidebar() {
     <Sidebar collapsible="icon">
       <SidebarHeader className="border-b border-sidebar-border px-4 py-4">
         <div className="flex items-center gap-3">
-          <div className="flex size-9 shrink-0 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
-            <ClipboardCheck className="size-5" />
-          </div>
+          <img
+            src={axonLogo.url}
+            alt="Axon"
+            className="size-9 shrink-0 rounded-md object-contain ring-1 ring-sidebar-border"
+          />
           {!collapsed && (
             <div className="min-w-0">
-              <p className="truncate text-sm font-semibold text-sidebar-foreground">AxonCheck</p>
+              <p className="truncate text-sm font-semibold tracking-tight text-sidebar-foreground">AxonCheck</p>
               <p className="truncate text-xs text-muted-foreground">Diário de Bordo</p>
             </div>
           )}
