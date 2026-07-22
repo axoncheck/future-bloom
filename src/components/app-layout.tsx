@@ -6,6 +6,7 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { Button } from "@/components/ui/button";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { useAuth } from "@/contexts/AuthContext";
+import axonLogo from "@/assets/axon-logo.png.asset.json";
 
 export function AppLayout() {
   const { userName, user, signOut } = useAuth();
@@ -27,8 +28,9 @@ export function AppLayout() {
           <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-border/60 bg-background/80 px-4 shadow-[0_1px_2px_0_rgba(15,23,42,0.03)] backdrop-blur-md md:px-6">
             <div className="flex items-center gap-3">
               <SidebarTrigger />
-              <div>
-                <p className="text-sm font-semibold text-foreground">Diário de Bordo Digital</p>
+              <img src={axonLogo.url} alt="Axon" className="size-8 rounded-md object-contain" />
+              <div className="hidden sm:block">
+                <p className="text-sm font-semibold tracking-tight text-foreground">Diário de Bordo Digital</p>
                 <p className="text-xs text-muted-foreground">Controle operacional AxonCheck</p>
               </div>
             </div>

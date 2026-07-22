@@ -1,7 +1,8 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { CheckCircle2, MessageCircle } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import axonLogo from "@/assets/axon-logo.png.asset.json";
 
 const WHATSAPP_NUMBER = "5565992334119";
 const WHATSAPP_MESSAGE =
@@ -27,9 +28,11 @@ function AguardandoLiberacaoPage() {
   return (
     <main className="flex min-h-screen items-center justify-center bg-background px-4 py-10">
       <section className="w-full max-w-lg rounded-lg border bg-card p-8 text-center shadow-sm">
-        <div className="mx-auto mb-6 flex size-14 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
-          <CheckCircle2 className="size-8" />
-        </div>
+        <img
+          src={axonLogo.url}
+          alt="Axon"
+          className="mx-auto mb-6 size-16 rounded-xl object-contain shadow-sm"
+        />
         <h1 className="text-2xl font-semibold text-foreground">Cadastro recebido!</h1>
         <p className="mt-3 text-sm text-muted-foreground">
           Enviamos um email de confirmação para o endereço cadastrado. Antes de acessar o sistema,
